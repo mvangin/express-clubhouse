@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  if user
+    h1 hi #{user.username}
+    a(href="/catalog/logOut")
+      button Log out
+
+  else  
+    h3 You are not Logged in
+      a(href="/catalog/login")
+        button Login

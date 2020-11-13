@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    if errors
+        ul
+            for error in errors
+                li(style="color: red") #{error.msg}
+    form(method="POST" action="/catalog/signUp")
+        fieldset
+            label(for="fullname") Full name 
+                input(name="fullname" type="text")
+        fieldset
+            label(for="username" type="text") Username (email) 
+                input(name="username" type="email")
+        fieldset
+            label(for="password") Password 
+                input(name="password" type="password")
+        fieldset
+            label(for="passwordConfirmation") Confirm Password 
+                input(name="passwordConfirmation" type="password")
+        input(type="submit")
+            
+

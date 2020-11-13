@@ -1,0 +1,15 @@
+extends layout 
+
+block content   
+    form(method="POST" action="/catalog/login")
+        fieldset
+            label(for="username") username 
+                input(name="username" type="text")
+        fieldset
+            label(for="password") password 
+                input(name="password" type="password")
+        button(type="submit") Login
+
+    p Not signed up? 
+    a(href="/catalog/signUp")
+        button Sign Up
