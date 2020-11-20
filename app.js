@@ -30,36 +30,41 @@ mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true })
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-passport.use(
+passport.use('local',
   new LocalStrategy((username, password, done) => {
-      User.findOne({ username: username }, (err, user) => {
-          if (err) {
-              return done(err);
-          };
-          if (!user) {
-              return done(null, false, { msg: "Incorrect username" });
-          }
-          bcrypt.compare(password, user.password, (err, res) => {
-            if (res) {
-              // passwords match! log user in
-              return done(null, user)
-            } else {
-              // passwords do not match!
-              return done(null, false, {msg: "Incorrect password"})
-            }
-          })
+    User.findOne({ username: username }, (err, user) => {
+      if (err) {
+        return done(err);
+      };
+      if (!user) {
+        return done(null, false, { msg: "Incorrect username" });
+      }
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          // passwords match! log user in
+          return done(null, user)
+        } else {
+          // passwords do not match!
+          return done(null, false, { msg: "Incorrect password" })
+        }
       })
+    })
   })
 )
-passport.serializeUser(function(user, done) {
+
+
+
+
+passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
     done(err, user);
   });
 });
+
 
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -86,12 +91,12 @@ app.use('/catalog', catalogRouter)
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

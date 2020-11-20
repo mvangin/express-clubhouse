@@ -3,10 +3,33 @@ extends layout
 block content
   if user
     h1 hi #{user.username}
+    if user.membership
+      h1 welcome to the secret club
+    else       
+      h1 you are not part of the secret club
+      a(href="/catalog/secretMembership")
+        button Secret Membership
+    a(href="/catalog/createMessage")
+      button Create new message
     a(href="/catalog/logOut")
       button Log out
+    
 
   else  
     h3 You are not Logged in
       a(href="/catalog/login")
         button Login
+
+  ul
+    for message in messages 
+      if user && user.membership
+        li
+          h4=message.user.fullname + " : " + message.timestamp
+      else
+        li 
+          h4 Secret User
+
+      li=message.title
+      li=message.text
+      
+

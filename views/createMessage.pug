@@ -1,0 +1,13 @@
+extend layout
+
+block content  
+    form(action="/catalog/createMessage" method="POST")
+        label(for="title") Title
+            br
+            input(name="title" type="text") 
+            br   
+        label(for="messageText") Message content
+            br
+            input(name="messageText" type="text") 
+            br
+        input(type="submit")
